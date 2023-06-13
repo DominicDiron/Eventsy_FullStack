@@ -1,7 +1,7 @@
 import 'package:eventsy/model/planner.dart';
-import 'package:eventsy/widgets/listWidget.dart';
+import 'package:eventsy/pages/search/viewProfile.dart';
+//import 'package:eventsy/widgets/listWidget.dart';
 import 'package:flutter/material.dart';
-//import 'package:eventsy/pages/search/viewProfile.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -57,7 +57,7 @@ class _SearchState extends State<Search> {
             ),
           ]),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(children: [
           TextField(
             style: const TextStyle(color: Colors.green),
@@ -80,40 +80,91 @@ class _SearchState extends State<Search> {
                   if (snapshot.hasData) {
                     listCopy = snapshot.data!;
                     //print(listCopy);
-                    return ListWidget(
-                        list: _foundPlanners); //snapshot.data ?? []
-                    // return ListView.builder(
-                    //   physics: BouncingScrollPhysics(),
-                    //   itemCount: _foundPlanners.length,
-                    //   itemBuilder: (context, i) {
-                    //     //listCopy = list[i]['email'];
-                    //     return Card(
-                    //       child: ListTile(
-                    //         leading: const CircleAvatar(
-                    //           backgroundImage: NetworkImage(
-                    //               'https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
-                    //         ),
-                    //         title: Text(
-                    //           _foundPlanners[i]['name'],
-                    //           style: const TextStyle(
-                    //               color: Colors.black, fontSize: 20.0),
-                    //         ),
-                    //         subtitle: Text(_foundPlanners[i]['email']),
-                    //         trailing: Text(
-                    //           "${_foundPlanners[i]['rate']}",
-                    //           style: const TextStyle(color: Colors.amber),
-                    //         ),
-                    //         onTap: () {
-                    //           Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (context) => ViewProfile(
-                    //                       list: _foundPlanners, person: i)));
-                    //         },
-                    //       ),
-                    //     );
-                    //   },
-                    // );
+                    //return ListWidget(list: _foundPlanners); //snapshot.data ?? []
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: _foundPlanners.length,
+                      itemBuilder: (context, i) {
+                        return Card(
+                          child: ListTile(
+                            leading: const Image(
+                              //fit: BoxFit.fill,
+                              image: NetworkImage(
+                                  'https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+                            ),
+                            title: Text(
+                              _foundPlanners[i]['name'],
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 20.0),
+                            ),
+                            subtitle: Text(_foundPlanners[i]['email']),
+                            trailing: Text(
+                              "${_foundPlanners[i]['rate']}",
+                              style: const TextStyle(color: Colors.amber),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ViewProfile(
+                                          list: _foundPlanners, person: i)));
+                            },
+                          ),
+                        );
+                        /*return Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: FittedBox(
+                            child: Material(
+                              color: Colors.white,
+                              elevation: 10.0,
+                              borderRadius: BorderRadius.circular(15.0),
+                              shadowColor: Colors.green,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: 150,
+                                    //height: 150,
+                                    child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(24.0),
+                                        child: const Image(
+                                          fit: BoxFit.cover,
+                                          alignment: Alignment.topLeft,
+                                          image: NetworkImage(
+                                              'https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+                                        )),
+                                  ),
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          _foundPlanners[i]['name'],
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 25.0),
+                                        ),
+                                        Text(_foundPlanners[i]['email'],
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18.0)),
+                                        Text(
+                                          "${_foundPlanners[i]['rate']}",
+                                          style: const TextStyle(
+                                              color: Colors.amber,
+                                              fontSize: 18.0),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );*/
+                      },
+                    );
                   } else {
                     return const Center(
                       child: CircularProgressIndicator(

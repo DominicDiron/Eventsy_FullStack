@@ -2,6 +2,9 @@
 //import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewProfile extends StatelessWidget {
   final List list;
@@ -22,7 +25,7 @@ class ViewProfile extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         children: [
           header(),
-          //drawerList(),
+          about(),
         ],
       ),
     );
@@ -59,6 +62,67 @@ class ViewProfile extends StatelessWidget {
             list[person]['email'], //index -2 is email
             style: TextStyle(color: Colors.white, fontSize: 15),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget about() {
+    return Padding(
+      padding: EdgeInsets.all(15.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Text(
+                  "Contact",
+                  style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                    icon: Icon(
+                      Icons.mail,
+                    ),
+                    onPressed: () {
+                      String mailUrl = "mailto:${list[person]['email']}";
+                      //launchUrl(mailUrl as Uri);
+                    }),
+                IconButton(
+                    icon: Icon(Icons.message),
+                    onPressed: () {
+                      //launchUrl("https://wa.me/${list[person]['contact']}" as Uri);
+                    })
+              ],
+            ),
+          ),
+          const SizedBox(height: 15.0),
+          const Text(
+            "About",
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          ),
+          Text(list[person]['about'],
+              style: const TextStyle(color: Colors.black, fontSize: 15)),
+          const Divider(color: Colors.green),
+          const Text(
+            "Past Projects",
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          ),
+          Text(list[person]['about'],
+              style: const TextStyle(color: Colors.black, fontSize: 15)),
+          const Divider(color: Colors.green),
+          const Text(
+            "Other services by me",
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          ),
+          Text(list[person]['about'],
+              style: const TextStyle(color: Colors.black, fontSize: 15)),
+          const Divider(color: Colors.green),
         ],
       ),
     );

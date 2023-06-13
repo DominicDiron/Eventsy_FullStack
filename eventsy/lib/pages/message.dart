@@ -1,3 +1,4 @@
+
 import 'package:eventsy/pages/profile/request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ class Message extends StatefulWidget {
 
   @override
   State<Message> createState() => _MessageState();
+
+  static fromMap(String msg) {}
 }
 
 class _MessageState extends State<Message> {
@@ -27,8 +30,8 @@ class _MessageState extends State<Message> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Request()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Request()));
             },
             icon: const Icon(Icons.group_add),
           )
