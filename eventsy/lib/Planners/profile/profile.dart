@@ -1,6 +1,8 @@
-import 'package:eventsy/pages/edit_profile.dart';
-import 'package:eventsy/pages/profile/request.dart';
-import 'package:eventsy/pages/profile/share.dart';
+import 'dart:async';
+
+import 'package:eventsy/Planners/profile/request.dart';
+import 'package:eventsy/Planners/profile/share.dart';
+import 'package:eventsy/model/currentPlanner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,27 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
+  CurrentPlanner currentPlanner = CurrentPlanner();
+  List userData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+  Future<void> _fetchUserData() async {
+    try {
+      List data = await currentPlanner.getCurrentPlanner();
+      setState(() {
+        userData = data;
+      });
+    } catch (e) {
+      // Handle error
+      print("Error fetching user data: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,39 +56,45 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget header() {
-    return Container(
-      color: Colors.green[700],
-      width: double.infinity,
-      height: 200,
-      padding: const EdgeInsets.only(top: 10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 15.0),
-            height: 120,
-            width: 120,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 3.0),
-              image: const DecorationImage(
+    if (userData.isNotEmpty) {
+      // Only access userData if it's not empty
+      return Container(
+        color: Colors.green[700],
+        width: double.infinity,
+        height: 200,
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 15.0),
+              height: 120,
+              width: 120,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 3.0),
+                image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(
-                      'https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')),
+                  image: NetworkImage(userData[0]['profileIMG']),
+                ),
+              ),
             ),
-          ),
-          const Text(
-            'Dominic Diron',
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          const Text(
-            'dirondemel@gmail.com',
-            style: TextStyle(color: Colors.white, fontSize: 15),
-          ),
-        ],
-      ),
-    );
+            Text(
+              userData[0]['name'],
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            Text(
+              userData[0]['email'],
+              style: TextStyle(color: Colors.white, fontSize: 15),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Handle loading state or no data available
+      return const Center(child: CircularProgressIndicator(color: Colors.green,)); 
+    }
   }
 
   Widget drawerList() {
@@ -137,8 +166,8 @@ class _ProfileState extends State<Profile> {
               bottomSheet();
               break;
             case 6:
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const EditProfile()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => const EditProfile()));
               break;
             case 7:
             case 8:
@@ -170,4 +199,4 @@ class _ProfileState extends State<Profile> {
   }
 }
 
-enum DrawerSections { dashboard, contacts, events }
+//enum DrawerSections { dashboard, contacts, events }

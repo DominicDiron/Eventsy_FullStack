@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Planner;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use DB;
 
 class PlannerController extends Controller
 {
@@ -15,9 +17,26 @@ class PlannerController extends Controller
     public function index()
     {
         //
-        return Planner::all();
+        $data = Planner::with('services','friends')->get();
+        return $data;
     }
 
+    public function getCurrentPlanner($currentPlannerId)
+    {
+
+       $currentPlanner = Planner::with('services', 'friends')->find($currentPlannerId);
+       return $currentPlanner;
+    }
+
+    public function addFriend($currentId,$plannerId)
+    {
+        $friendId = $plannerId;
+        $currentUser = Planner::find($currentId);
+        $friend = Planner::find($friendId);
+        $currentUser->friends()->attach($friend);
+        
+        return $plannerId;
+    }
     /**
      * Show the form for creating a new resource.
      *

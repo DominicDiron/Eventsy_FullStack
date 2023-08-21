@@ -1,5 +1,6 @@
 
-import 'package:eventsy/pages/profile/request.dart';
+import 'package:eventsy/Planners/profile/request.dart';
+import 'package:eventsy/Planners/profile/request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

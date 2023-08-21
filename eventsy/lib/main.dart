@@ -1,12 +1,12 @@
-import 'package:eventsy/navigation.dart';
-import 'package:eventsy/utils/userPreference.dart';
+
+import 'package:eventsy/Planners/navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 
+
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await UserPreference.init();
+  //WidgetsFlutterBinding.ensureInitialized();
   runApp(DevicePreview(builder: (BuildContext context) {
     return const MyApp();
   }));
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const Navigation()));
       // Navigator.pushReplacement(
       //     context, MaterialPageRoute(builder: (context) => Navigation()));

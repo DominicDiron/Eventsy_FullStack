@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 */
 Route::get('/planners',[PlannerController::class,'index']);
+Route::get('/getCurrentPlanner/{currentPlannerId}',[PlannerController::class,'getCurrentPlanner']);
+Route::get('/hire/{currentId}/{plannerId}',[PlannerController::class,'addFriend']);

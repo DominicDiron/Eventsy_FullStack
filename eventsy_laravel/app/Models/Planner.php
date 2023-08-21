@@ -11,14 +11,23 @@ class Planner extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $primaryKey = 'plannerID';
+
+
     protected $fillable = [
-        'id',
+        'plannerID',
         'name',
-        'email',
+        'location',
+        'dob',
         'password',
-        'about',
         'rate',
-        'followers'
+        'profileIMG',
+        'image1',
+        'image2',
+        'image3',
+        'contact',
+        'email',
+        'description'
     ];
 
     protected $hidden = [
@@ -29,4 +38,14 @@ class Planner extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'planner_services', 'plannerID', 'serviceID');
+    }
+
+    public function friends()
+    {
+        return $this->belongsToMany(Planner::class, 'friends', 'plannerID', 'friendPlannerID');
+    }
 }

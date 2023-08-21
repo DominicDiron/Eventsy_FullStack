@@ -14,12 +14,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('planners', function (Blueprint $table) {
-            $table->id();
+            $table->id('plannerID');
             $table->String('name');
+            $table->String('location');
+            $table->date('dob');
+            $table->String('password');
+            $table->tinyinteger('rate');
+            $table->String('profileIMG')->nullable();
+            $table->String('image1')->nullable();
+            $table->String('image2')->nullable();
+            $table->String('image3')->nullable();
+            $table->String('contact');
             $table->String('email');
-            $table->String('about');
-            $table->integer('rate');
-            $table->integer('followers');
+            $table->longtext('description');
             $table->timestamps();
         });
     }
