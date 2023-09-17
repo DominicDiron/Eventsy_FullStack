@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreign('plannerID')->references('plannerID')->on('planners');
             $table->foreign('friendPlannerID')->references('plannerID')->on('planners');
             $table->timestamps();
+
+            $table->unique(['plannerID', 'friendPlannerID']);
         });
     }
 

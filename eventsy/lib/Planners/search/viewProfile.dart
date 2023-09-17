@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 //import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -8,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/currentId.dart';
-
 
 currentId currentuser = currentId();
 int currentuserid = currentuser.currentUserId;
@@ -20,23 +20,21 @@ class ViewProfile extends StatelessWidget {
   const ViewProfile({Key? key, required this.list, required this.person})
       : super(key: key);
 
- 
-
-  Future addFriend(int id) async {
-
-    
-    
-
+  Future<void> addFriend(int id) async {
     String hire = "http://127.0.0.1:8000/api/hire/$currentuserid/$id";
     final Uri url = Uri.parse(hire);
     print(url);
-    final response = await http.post(url);
-    var result = response.body;
 
-    if (result == true) {
-      print('hired');
-    } else {
-      print('Error Occured');
+    try {
+      final response = await http.post(url);
+      if (response.statusCode == 200) {
+        print("Request was successful");
+        print("Response body: ${response.body}");
+      } else {
+        print("Request failed with status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error: $e");
     }
   }
 
@@ -177,6 +175,7 @@ class ViewProfile extends StatelessWidget {
                 IconButton(
                     icon: const Icon(
                       Icons.mail,
+                      color: Colors.blue,
                     ),
                     onPressed: () {
                       String mail = "mailto:${list[person]['email']}";
@@ -185,7 +184,7 @@ class ViewProfile extends StatelessWidget {
                       launchUrl(url);
                     }),
                 IconButton(
-                    icon: Icon(Icons.message),
+                    icon: const Icon(Icons.chat,color: Colors.green,),
                     onPressed: () {
                       String whatsapp =
                           "https://wa.me/${list[person]['contact']}?text=Hi this message is through Eventsy";
@@ -359,15 +358,16 @@ class ViewProfile extends StatelessWidget {
           itemBuilder: (context, i) {
             friendList = list[person]['friends'];
             return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                CircleAvatar(backgroundImage: NetworkImage(friendList[i]['profileIMG'])),
-                const SizedBox(width: 20.0),
-                SizedBox(
-                  child: Text(
-                    friendList[i]['name'], // index - 1 is name
-                    style: const TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                )
-              ]);
+              CircleAvatar(
+                  backgroundImage: NetworkImage(friendList[i]['profileIMG'])),
+              const SizedBox(width: 20.0),
+              SizedBox(
+                child: Text(
+                  friendList[i]['name'], // index - 1 is name
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              )
+            ]);
           },
         )),
       ]),
@@ -376,9 +376,10 @@ class ViewProfile extends StatelessWidget {
 
   Widget footer() {
     //String button = "Hire";
-    if(list[person]['plannerID'] == currentuserid)
-    {
-      return const SizedBox(height: 0,);
+    if (list[person]['plannerID'] == currentuserid) {
+      return const SizedBox(
+        height: 0,
+      );
     }
     return ElevatedButton(
         onPressed: () {

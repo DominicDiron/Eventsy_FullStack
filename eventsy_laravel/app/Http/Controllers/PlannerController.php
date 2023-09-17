@@ -35,7 +35,7 @@ class PlannerController extends Controller
         $friend = Planner::find($friendId);
         $currentUser->friends()->attach($friend);
         
-        return $plannerId;
+        return response()->json(['message' => 'Friend request sent.', 'status' => 'pending']);
     }
     /**
      * Show the form for creating a new resource.
