@@ -24,9 +24,12 @@ return new class extends Migration
             $table->String('image1')->nullable();
             $table->String('image2')->nullable();
             $table->String('image3')->nullable();
+            $table->String('image4')->nullable();
+            $table->String('image5')->nullable();
             $table->String('contact');
             $table->String('email');
             $table->longtext('description');
+            $table->longtext('services');
             $table->timestamps();
         });
     }

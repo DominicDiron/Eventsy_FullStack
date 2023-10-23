@@ -25,9 +25,12 @@ class Planner extends Model
         'image1',
         'image2',
         'image3',
+        'image4',
+        'image5',
         'contact',
         'email',
-        'description'
+        'description',
+        'services'
     ];
 
     protected $hidden = [

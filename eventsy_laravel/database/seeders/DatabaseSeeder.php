@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PlannerSeeder::class,
-            ServicesSeeder::class,
-            PlannerServicesSeeder::class,
+            //ServicesSeeder::class,
+            //PlannerServicesSeeder::class,
         ]);
     }
 }
