@@ -136,7 +136,7 @@ class _ProfileState extends State<Profile> {
       padding: const EdgeInsets.only(top: 15.0),
       child: Column(
         children: [
-          menuItem(1, 'Promotion', Icons.self_improvement),
+          //menuItem(1, 'Promotion', Icons.self_improvement),
           menuItem(3, 'Contributors', Icons.group),
           menuItem(4, 'Share', Icons.share),
           menuItem(5, 'Edit', Icons.edit),
@@ -144,7 +144,7 @@ class _ProfileState extends State<Profile> {
           menuItem(7, 'Contact us', Icons.contact_mail),
           const Divider(height: 2.0),
           menuItem(8, 'Settings', Icons.settings),
-          menuItem(9, 'Notifications', Icons.notifications),
+          //menuItem(9, 'Notifications', Icons.notifications),
           const Divider(height: 2.0),
           menuItem(10, 'Log out', Icons.logout),
         ],
@@ -153,17 +153,17 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> bottomSheet() {
+    String message ="Thank you for contacting us. We appreciate your feedback and will respond to your inquiry as soon as possible.In the meantime, please feel free to browse our website or contact us by email at 2019csc007univ@jfn.ac.lk.Thank you for your patience and understanding. ❤";
     return showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
           return Container(
               padding: const EdgeInsets.all(30.0),
-              child: const Row(
+              child: Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      'This feature will be implement later or it will not available to you at the moment',
-                      style: TextStyle(fontSize: 20.0, color: Colors.green),
+                    child: Text(message,
+                      style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 18, 140, 126)),
                       textAlign: TextAlign.center,
                     ),
                   )

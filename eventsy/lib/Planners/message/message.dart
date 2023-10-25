@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:eventsy/Planners/profile/contributors.dart';
 import 'package:eventsy/Planners/search/viewProfile.dart';
 import 'package:eventsy/model/friends.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,6 +27,15 @@ class _MessageState extends State<Message> {
             'Messages',
             style: TextStyle(fontFamily: 'Arial', color: Colors.white),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.group),
+              onPressed: () {
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Contributors()));
+              },
+            ),
+          ]
         ),
         body: Padding(
             padding: const EdgeInsets.all(5.0),

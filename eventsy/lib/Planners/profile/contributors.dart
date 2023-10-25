@@ -3,6 +3,7 @@ import 'package:eventsy/model/friends.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class Contributors extends StatefulWidget {
   const Contributors({super.key});
@@ -14,6 +15,7 @@ class Contributors extends StatefulWidget {
 class _ContributorsState extends State<Contributors> {
   Friends friends = Friends();
   List confirmed = [];
+  
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +93,7 @@ class _ContributorsState extends State<Contributors> {
                                       fontStyle: FontStyle.italic)),
                               printEmail(confirmed[i]['email']),
                               printPlace(confirmed[i]['location']),
-                              unfriend(confirmed[i]['friendID'])
+                              unfriend(confirmed[i]['contact'],confirmed[i]['friendID'])
                             ],
                           ))
                         ]),
@@ -135,12 +137,20 @@ class _ContributorsState extends State<Contributors> {
             fontWeight: FontWeight.normal));
   }
 
-  Widget unfriend(int friendID) {
+  Widget unfriend(String contact,int friendID) {
     return Padding(
       padding: const EdgeInsets.only(right:10.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          IconButton(
+                    icon: const Icon(Icons.chat,color: Color.fromARGB(255, 18, 140, 126)),
+                    onPressed: () {
+                      String whatsapp =
+                          "https://wa.me/$contact?text=Hi this message is through Eventsy";
+                      final Uri url = Uri.parse(whatsapp);
+                      launchUrl(url);
+                    }),
           SizedBox(
             height: 30,
             width: 120,
