@@ -23,3 +23,8 @@ Route::get('/planners',[PlannerController::class,'index']);
 Route::get('/getCurrentPlanner/{currentPlannerId}',[PlannerController::class,'getCurrentPlanner']);
 Route::post('/hire/{currentId}/{plannerId}',[PlannerController::class,'addFriend']);
 Route::post('/updateProfile/{plannerId}',[PlannerController::class,'updateProfile']);
+Route::get('/getRequests/{plannerId}',[PlannerController::class,'getRequests']);
+Route::get('/getFriends/{plannerId}',[PlannerController::class,'getFriends']);
+Route::post('/accept/{friendId}',[PlannerController::class,'acceptFriend']);
+Route::post('/delete/{friendId}',[PlannerController::class,'deleteFriend']);
+

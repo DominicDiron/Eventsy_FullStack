@@ -73,8 +73,8 @@ class PlannerSeeder extends Seeder
                 'services' => 'Transport,Venue booking',
                 ]);
 
-        $planner1->friends()->attach($planner2);
-        $planner2->friends()->attach($planner1);
+        //$planner1->friends()->attach($planner2);
+        //$planner2->friends()->attach($planner1);
 
     }
 }

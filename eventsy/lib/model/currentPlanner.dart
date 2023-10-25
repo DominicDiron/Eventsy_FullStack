@@ -17,7 +17,8 @@ class CurrentPlanner {
       if (response.statusCode == 200) {
         //print([jsonDecode(response.body)]);
         return [jsonDecode(response.body)];
-      } else {
+      } 
+      else {
         return Future.error('Server Error');
       }
     } catch (e) {

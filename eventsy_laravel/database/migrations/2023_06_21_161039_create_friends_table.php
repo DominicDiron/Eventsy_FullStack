@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id('friendID');
             $table->unsignedBigInteger('plannerID');
             $table->unsignedBigInteger('friendPlannerID');
-            $table->enum('status',['pending','confirmed'])->default('pending');
+            $table->enum('status', ['pending', 'confirmed'])->default('pending');
+            //$table->string('status')->default('pending');
             $table->foreign('plannerID')->references('plannerID')->on('planners');
             $table->foreign('friendPlannerID')->references('plannerID')->on('planners');
-            $table->timestamps();
-
             $table->unique(['plannerID', 'friendPlannerID']);
+            $table->timestamps();
         });
     }
 

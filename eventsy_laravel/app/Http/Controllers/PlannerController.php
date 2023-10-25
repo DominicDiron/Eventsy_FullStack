@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Planner;
 use App\Models\Service;
+use App\Models\Friend;
 use Illuminate\Http\Request;
 use DB;
 
@@ -16,14 +17,12 @@ class PlannerController extends Controller
      */
     public function index()
     {
-        //
-        $data = Planner::with('friends')->get();
+        $data = Planner::with('friends')->get(); // correct code 
         return $data;
     }
 
     public function getCurrentPlanner($currentPlannerId)
     {
-
        $currentPlanner = Planner::with('friends')->find($currentPlannerId);
        return $currentPlanner;
     }
@@ -66,67 +65,76 @@ class PlannerController extends Controller
             return response()->json(['message' => 'Profile updated Successfully']);
         }        
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function getRequests($currentPlannerId)
+    {
+        $pendingRequests = Friend::join('planners', 'friends.PlannerID', '=', 'planners.plannerID')
+        ->where('friends.friendplannerID', $currentPlannerId)
+        ->where('friends.status', 'pending')
+        ->select('friends.*', 'planners.*') // Select all columns from both tables
+        ->get();
+
+        return response()->json($pendingRequests); // correct code
+    }
+
+    public function getFriends($currentPlannerId)
+    {
+        $confirmedRequests = Friend::join('planners', 'friends.PlannerID', '=', 'planners.plannerID')
+        ->where('friends.friendplannerID', $currentPlannerId)
+        ->where('friends.status', 'confirmed')
+        ->select('friends.*', 'planners.*') // Select all columns from both tables
+        ->get();
+
+        return response()->json($confirmedRequests); // correct code
+    }
+
+    public function acceptFriend(Request $request,$friendId)
+    {
+        $friend = DB::table('friends')->where('friendID', $friendId)->first();
+
+        if (!$friend) {
+            return response()->json(['error' => 'Friend ID not found'], 404);
+        }
+
+        $result = DB::table('friends')
+        ->where('friendID', $friendId)
+        ->update(['status' => 'confirmed']);
+
+        if ($result) {
+            return response()->json(['message' => 'Request updated successfully']);
+        } else {
+            return response()->json(['error' => 'Failed to update the request'], 500);
+        }
+    }
+
+    public function deleteFriend($friendId)
+    {
+        $data = DB::table('friends')->where('friendID',$friendId);
+        //$data = Friend::find($friendId);
+        $data->delete();
+        return response()->json(['message'=>'successfully deleted']);
+    }
+
     public function create()
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Planner  $planner
-     * @return \Illuminate\Http\Response
-     */
     public function show(Planner $planner)
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Planner  $planner
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Planner $planner)
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Planner  $planner
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Planner $planner)
     {
         //
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Planner  $planner
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Planner $planner)
     {
         //
