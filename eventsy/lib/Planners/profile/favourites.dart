@@ -5,24 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
-class Contributors extends StatefulWidget {
-  const Contributors({super.key});
+class Favourites extends StatefulWidget {
+  const Favourites({super.key});
 
   @override
-  State<Contributors> createState() => _ContributorsState();
+  State<Favourites> createState() => _FavouritesState();
 }
 
-class _ContributorsState extends State<Contributors> {
+class _FavouritesState extends State<Favourites> {
   Friends friends = Friends();
-  List confirmed = [];
-  
+  List favourites = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Contributors',
+            'Favourites',
             style: TextStyle(fontFamily: 'Arial', color: Colors.white),
           ),
         ),
@@ -48,7 +47,7 @@ class _ContributorsState extends State<Contributors> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            'Contributors',
+            'Favourites',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0,
@@ -62,13 +61,13 @@ class _ContributorsState extends State<Contributors> {
   Widget contributors() {
     return Expanded(
       child: FutureBuilder<List>(
-          future: friends.getFriends(),
+          future: friends.getFavourites(),
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
-              confirmed = snapshot.data!;
+              favourites = snapshot.data!;
               return ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  itemCount: confirmed.length,
+                  itemCount: favourites.length,
                   itemBuilder: (context, i) {
                     return GestureDetector(
                       child: Card(
@@ -77,7 +76,7 @@ class _ContributorsState extends State<Contributors> {
                           SizedBox(
                               height: MediaQuery.of(context).size.height * 0.16,
                               width: MediaQuery.of(context).size.width * 0.25,
-                              child: Image.network(confirmed[i]['profileIMG'],
+                              child: Image.network(favourites[i]['profileIMG'],
                                   fit: BoxFit.fill)),
                           const SizedBox(width: 15.0),
                           Flexible(
@@ -85,25 +84,39 @@ class _ContributorsState extends State<Contributors> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              printName(confirmed[i]['name']),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  printName(favourites[i]['name']),
+                                  IconButton(
+                                    icon: const Icon(Icons.favorite),
+                                    color: Colors.red,
+                                    onPressed: (){
+                                      delete(favourites[i]['favouriteID']);
+                                    })
+                                ],
+                              ),
                               const Text('Event Planner',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15.0,
                                       fontStyle: FontStyle.italic)),
-                              printEmail(confirmed[i]['email']),
-                              printPlace(confirmed[i]['location']),
-                              unfriend(confirmed[i]['contact'],confirmed[i]['friendID'])
+                              printEmail(favourites[i]['email']),
+                              printPlace(favourites[i]['location']),
+                              contact(favourites[i]['contact'],
+                                  favourites[i]['email'])
                             ],
                           ))
                         ]),
                       ),
                       onTap: () {
-                          Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ViewProfile(person: [confirmed[i]])));
-                          },
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ViewProfile(person: [favourites[i]])));
+                      },
                     );
                   });
             } else {
@@ -140,94 +153,54 @@ class _ContributorsState extends State<Contributors> {
             fontWeight: FontWeight.normal));
   }
 
-  Widget unfriend(String contact,int friendID) {
+  Widget contact(String contact, String emailAddress) {
     return Padding(
-      padding: const EdgeInsets.only(right:10.0),
+      padding: const EdgeInsets.only(right: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
-                    icon: const Icon(Icons.chat,color: Color.fromARGB(255, 18, 140, 126)),
+              icon: const Icon(Icons.chat,
+                  color: Color.fromARGB(255, 18, 140, 126)),
+              onPressed: () {
+                String whatsapp =
+                    "https://wa.me/$contact?text=Hi this message is through Eventsy";
+                final Uri url = Uri.parse(whatsapp);
+                launchUrl(url);
+              }),
+          IconButton(
+                    icon: const Icon(
+                      Icons.mail,
+                      color: Colors.blue,
+                    ),
                     onPressed: () {
-                      String whatsapp =
-                          "https://wa.me/$contact?text=Hi this message is through Eventsy";
-                      final Uri url = Uri.parse(whatsapp);
+                      String mail = "mailto:$emailAddress";
+                      final Uri url = Uri.parse(mail);
                       launchUrl(url);
                     }),
-          SizedBox(
-            height: 30,
-            width: 120,
-            child: ElevatedButton(
-              onPressed: () async {
-                showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Unfriend?'),
-                            content: const Text(
-                                'Are you sure you want to unfriend?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  // Close the dialog and navigate back without saving
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('No'),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  bool result = await delete(friendID);
-                                  if (result) {
-                                    Navigator.of(context).pop();
-                                  }
-                                },
-                                child: const Text('Yes'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-              
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20))),
-              child: const Text(
-                'Unfriend',
-                style: TextStyle(
-                    fontSize: 15,
-                    //letterSpacing: 2,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-         ],
+        ],
       ),
     );
   }
 
-  Future<bool> delete(int friendID,) async {
-  print(friendID);
-  final url = 'http://127.0.0.1:8000/api/deleteFriend/$friendID';
+  Future<bool> delete(int favouriteID) async {
+    print(favouriteID);
+    final url = 'http://127.0.0.1:8000/api/deleteFavourite/$favouriteID';
 
-  try {
-    final response = await http.post(Uri.parse(url));
+    try {
+      final response = await http.post(Uri.parse(url));
 
-    if (response.statusCode == 200) {
-      print("Friend deleted");
-      return true;
-    } else {
-      String msg = 'Error on deleting friend';
-      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print("Favourite deleted");
+        return true;
+      } else {
+        String msg = 'Error on deleting favourite';
+        print(response.statusCode);
+        return false;
+      }
+    } catch (e) {
+      print('Error: $e');
       return false;
     }
-  } catch (e) {
-    print('Error: $e');
-    return false;
   }
-}
-
 }

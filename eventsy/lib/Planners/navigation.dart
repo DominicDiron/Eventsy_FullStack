@@ -5,8 +5,6 @@ import 'package:eventsy/Planners/search/search.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-import 'booking/booking.dart';
-
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
 
@@ -16,7 +14,7 @@ class Navigation extends StatefulWidget {
 
 class _NavigationState extends State<Navigation> {
   int _activePageIndex = 0;
-  final List<Widget> _pages = [Search(), Message(), Profile()]; // if you want add any field to this
+  final List<Widget> _pages = [const Search(), const Message(), const Profile()]; // if you want add any field to this
 
   void onTapped(int index) {
     setState(() {
@@ -36,7 +34,7 @@ class _NavigationState extends State<Navigation> {
         bottomNavigationBar: CurvedNavigationBar(
           index: _activePageIndex,
           backgroundColor: Colors.blueGrey.shade900,
-          color: Color.fromARGB(255, 18, 140, 126),
+          color: const Color.fromARGB(255, 18, 140, 126),
           //animationCurve: Curves.easeOut,
           items: const <Widget>[
             Icon(Icons.search),

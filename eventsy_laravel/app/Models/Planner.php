@@ -55,6 +55,11 @@ class Planner extends Model
         //return $this->hasMany(Friend::class, 'plannerID', 'plannerID');
 
     }
+    public function favourites()
+    {
+        return $this->belongsToMany(Planner::class, 'favourites', 'plannerID', 'favouritePlannerID',); // Correct line
+
+    }
 
     
 }

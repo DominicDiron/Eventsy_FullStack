@@ -1,23 +1,21 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../model/currentId.dart';
-
-currentId currentuser = currentId();
-int currentuserid = currentuser.currentUserId;
-
-class ViewProfile extends StatelessWidget {
-  final List list;
-  final int person;
-
-  const ViewProfile({Key? key, required this.list, required this.person})
+class ViewProfile extends StatefulWidget {
+  final List person;
+  
+  const ViewProfile({Key? key, required this.person})
       : super(key: key);
 
+  @override
+  State<ViewProfile> createState() => _ViewProfileState(person);
+}
+
+class _ViewProfileState extends State<ViewProfile> {
+  List person;
+  _ViewProfileState(this.person);
 
   @override
   Widget build(BuildContext context) {
@@ -41,33 +39,35 @@ class ViewProfile extends StatelessWidget {
             const Divider(height: 2, color: Colors.white),
             service(),
             const Divider(height: 2, color: Colors.white),
-            friends(),
+            //friends(),
             const Divider(height: 2, color: Colors.white),
           ],
         ),
-        persistentFooterButtons: <Widget>[footer()]);
+        //persistentFooterButtons: <Widget>[/*footer()*/]
+        );
   }
 
   Widget title() {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-      CircleAvatar(backgroundImage: NetworkImage(list[person]['profileIMG'])),
+      CircleAvatar(backgroundImage: NetworkImage(person[0]['profileIMG'])),
       const SizedBox(width: 20.0),
       SizedBox(
         child: Text(
-          list[person]['name'], // index - 1 is name
+          person[0]['name'], // index - 1 is name
           style: const TextStyle(color: Colors.white, fontSize: 20),
         ),
       )
     ]);
   }
 
+
   Widget carousel() {
     List<String> imageList = [
-      list[person]['image1'],
-      list[person]['image2'],
-      list[person]['image3'],
-      list[person]['image4'],
-      list[person]['image5'],
+      person[0]['image1'],
+      person[0]['image2'],
+      person[0]['image3'],
+      person[0]['image4'],
+      person[0]['image5'],
       // Add more image URLs or local asset paths as needed
     ];
 
@@ -124,7 +124,7 @@ class ViewProfile extends StatelessWidget {
                       color: Colors.blue,
                     ),
                     onPressed: () {
-                      String mail = "mailto:${list[person]['email']}";
+                      String mail = "mailto:${person[0]['email']}";
                       final Uri url = Uri.parse(mail);
                       launchUrl(url);
                     }),
@@ -132,7 +132,7 @@ class ViewProfile extends StatelessWidget {
                     icon: const Icon(Icons.chat,color: Colors.green,),
                     onPressed: () {
                       String whatsapp =
-                          "https://wa.me/${list[person]['contact']}?text=Hi this message is through Eventsy";
+                          "https://wa.me/${person[0]['contact']}?text=Hi this message is through Eventsy";
                       final Uri url = Uri.parse(whatsapp);
                       launchUrl(url);
                     })
@@ -155,7 +155,7 @@ class ViewProfile extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(list[person]['name'],
+                Text(person[0]['name'],
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20.0,
@@ -167,7 +167,7 @@ class ViewProfile extends StatelessWidget {
                         fontStyle: FontStyle.italic)),
               ],
             ),
-            printRate(list[person]['rate']),
+            printRate(person[0]['rate']),
           ]),
     );
   }
@@ -203,7 +203,7 @@ class ViewProfile extends StatelessWidget {
                 height: 10.0,
               ),
               Text(
-                list[person]['description'],
+                person[0]['description'],
                 style: const TextStyle(color: Colors.white, fontSize: 15.0),
               )
             ]));
@@ -211,7 +211,7 @@ class ViewProfile extends StatelessWidget {
 
   Widget service() {
     List serviceList;
-    List<dynamic> services = list[person]['services'].split(',');
+    List<dynamic> services = person[0]['services'].split(',');
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -241,77 +241,55 @@ class ViewProfile extends StatelessWidget {
     );
   }
 
-  Widget friends() {
-    List friendList;
-    return Container(
-      padding: const EdgeInsets.all(20),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text(
-          'Contributers with Planner',
-          style: TextStyle(
-              color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(
-          height: 10.0,
-        ),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: list[person]['friends'].length,
-          itemBuilder: (context, i) {
-        friendList = list[person]['friends'];
-        return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          CircleAvatar(
-              backgroundImage: NetworkImage(friendList[i]['profileIMG'])),
-          const SizedBox(width: 20.0),
-          SizedBox(
-            child: Text(
-              friendList[i]['name'], // index - 1 is name
-              style: const TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          )
-        ]);
-          },
-        ),
-      ]),
-    );
-  }
+  // Widget friends() {
+  //   List friendList;
+  //   return Container(
+  //     padding: const EdgeInsets.all(20),
+  //     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  //       const Text(
+  //         'Contributers with Planner',
+  //         style: TextStyle(
+  //             color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
+  //       ),
+  //       const SizedBox(
+  //         height: 10.0,
+  //       ),
+  //       ListView.builder(
+  //         shrinkWrap: true,
+  //         itemCount: person[0]['friends'].length,
+  //         itemBuilder: (context, i) {
+  //       friendList = person[0]['friends'];
+  //       return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+  //         CircleAvatar(
+  //             backgroundImage: NetworkImage(friendList[i]['profileIMG'])),
+  //         const SizedBox(width: 20.0),
+  //         SizedBox(
+  //           child: Text(
+  //             friendList[i]['name'], // index - 1 is name
+  //             style: const TextStyle(color: Colors.white, fontSize: 20),
+  //           ),
+  //         )
+  //       ]);
+  //         },
+  //       ),
+  //     ]),
+  //   );
+  // }
 
-  Widget footer() {
-    String button = "Hire";
-    if (list[person]['plannerID'] == currentuserid) {
-      return const SizedBox(
-        height: 0,
-      );
-    }
-    return ElevatedButton(
-        onPressed: () {
-          bool status = addFriend(list[person]['plannerID']) as bool;
-
-          if(status) {
-            button = "Requested";
-          }
-        },
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-        child: Text(button,
-            style: TextStyle(fontSize: 20, color: Colors.black)));
-  }
-
-  Future<bool> addFriend(int id) async {
-    String hire = "http://127.0.0.1:8000/api/hire/$currentuserid/$id";
-
-    final response = await http.post(Uri.parse(hire), body: {
-      'status': 'pending',
-    });
-
-    if (response.statusCode == 200) {
-      print("Request was successful");
-      print("Response body: ${response.body}");
-      return true;
-    } 
-    else {
-      print("Request failed with status code: ${response.statusCode}");
-      return false;
-    }
-  }
+  // Widget footer() {
+  //   //String button = "Hire";
+  //   if (person[0]['plannerID'] == currentuserid) {
+  //     return const SizedBox(
+  //       height: 0,
+  //     );
+  //   }
+  //   return ElevatedButton(
+  //       onPressed: () {
+  //         //addFriend(person[0]['plannerID']);
+  //       },
+  //       style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+  //       child: const Text("Hire",
+  //           style: TextStyle(fontSize: 20, color: Colors.black)));
+  // }
 
 }

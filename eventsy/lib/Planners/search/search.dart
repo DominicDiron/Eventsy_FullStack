@@ -2,6 +2,7 @@ import 'package:eventsy/Planners/search/viewProfile.dart';
 import 'package:eventsy/model/planner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -108,13 +109,20 @@ class _SearchState extends State<Search> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      printName(_foundPlanners[i]['name']),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          printName(_foundPlanners[i]['name']),
+                                          favourite(_foundPlanners[i]['plannerID']),
+                                        ],
+                                      ),
+                                      //printName(_foundPlanners[i]['name']),
                                       const Text('Event Planner',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 15.0,
                                               fontStyle: FontStyle.italic)),
-                                      printRate(_foundPlanners[i]['rate']),
+                                      //printRate(_foundPlanners[i]['rate']),
                                       printEmail(_foundPlanners[i]['email']),
                                       printPlace(_foundPlanners[i]['location'])
                                     ],
@@ -153,6 +161,20 @@ class _SearchState extends State<Search> {
             color: Colors.white, fontSize: 23.0, fontWeight: FontWeight.bold));
   }
 
+  Widget favourite(int foundPlanner){
+    if(foundPlanner != currentuserid){
+      return IconButton.outlined(
+        icon:const Icon(Icons.favorite_border_outlined),
+        color: Colors.white,
+        onPressed: () {
+          addFavourite(foundPlanner);
+        },);                                             
+    }
+    else{
+      return const SizedBox();
+    }
+}
+
   Widget printEmail(String email) {
     return Text(email,
         style: const TextStyle(
@@ -181,6 +203,22 @@ class _SearchState extends State<Search> {
             color: Colors.white,
             fontSize: 15.0,
             fontWeight: FontWeight.normal));
+  }
+
+  Future<bool> addFavourite(int id) async {
+    String hire = "http://127.0.0.1:8000/api/addToFavourite/$currentuserid/$id";
+
+    final response = await http.post(Uri.parse(hire));
+
+    if (response.statusCode == 200) {
+      print("favourite was successful");
+      print("Response body: ${response.body}");
+      return true;
+    } 
+    else {
+      print("favourite failed with status code: ${response.statusCode}");
+      return false;
+    }
   }
 
 }

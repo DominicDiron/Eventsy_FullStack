@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:eventsy/Planners/profile/editProfile.dart';
 import 'package:eventsy/Planners/profile/contributors.dart';
+import 'package:eventsy/Planners/profile/favourites.dart';
 import 'package:eventsy/Planners/profile/share.dart';
 import 'package:eventsy/model/currentId.dart';
 import 'package:eventsy/model/currentPlanner.dart';
@@ -137,16 +138,16 @@ class _ProfileState extends State<Profile> {
       child: Column(
         children: [
           //menuItem(1, 'Promotion', Icons.self_improvement),
-          menuItem(3, 'Contributors', Icons.group),
+          menuItem(2, 'Contributors', Icons.group),
+          menuItem(3, 'Favourites', Icons.favorite),
           menuItem(4, 'Share', Icons.share),
           menuItem(5, 'Edit', Icons.edit),
           menuItem(6, 'Help & Support', Icons.help),
           menuItem(7, 'Contact us', Icons.contact_mail),
           const Divider(height: 2.0),
           menuItem(8, 'Settings', Icons.settings),
-          //menuItem(9, 'Notifications', Icons.notifications),
           const Divider(height: 2.0),
-          menuItem(10, 'Log out', Icons.logout),
+          menuItem(9, 'Log out', Icons.logout),
         ],
       ),
     );
@@ -179,13 +180,14 @@ class _ProfileState extends State<Profile> {
         onTap: () {
           switch (id) {
             case 1:
-              bottomSheet();
               break;
             case 2:
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Contributors()));
               break;
             case 3:
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Contributors()));
+                  MaterialPageRoute(builder: (context) => const Favourites()));
               break;
             case 4:
               Navigator.push(
@@ -205,8 +207,13 @@ class _ProfileState extends State<Profile> {
             case 6:
               bottomSheet();
               break;
-            case 7:
+            case 7:bottomSheet();break;
             case 8:
+              // link your settings page here
+              break;
+            case 9:
+              // link your logout page here
+              break;
             default:
               bottomSheet();
           }
@@ -234,5 +241,3 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
-
-//enum DrawerSections { dashboard, contacts, events }

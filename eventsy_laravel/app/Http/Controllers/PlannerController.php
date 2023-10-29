@@ -6,6 +6,7 @@ use App\Models\Planner;
 use App\Models\Service;
 use App\Models\Friend;
 use Illuminate\Http\Request;
+use App\Models\Favourite;
 use DB;
 
 class PlannerController extends Controller
@@ -110,7 +111,33 @@ class PlannerController extends Controller
     public function deleteFriend($friendId)
     {
         $data = DB::table('friends')->where('friendID',$friendId);
-        //$data = Friend::find($friendId);
+        $data->delete();
+        return response()->json(['message'=>'successfully deleted']);
+    }
+
+    public function addToFavourite($currentId,$plannerId)
+    {
+        $favouritePlannerID = $plannerId;
+        $currentUser = Planner::find($currentId);
+        $favouritePlanner = Planner::find($favouritePlannerID);
+        $currentUser->favourites()->attach($favouritePlanner);
+        
+        return response()->json(['message' => 'Added to Favourite']);
+    }
+
+    public function getFavourites($currentPlannerId)
+    {
+        $favourites = Favourite::join('planners', 'favourites.favouritePlannerID', '=', 'planners.plannerID')
+        ->where('favourites.plannerID', $currentPlannerId)
+        ->select('favourites.*', 'planners.*') // Select all columns from both tables
+        ->get();
+
+        return response()->json($favourites); // correct code
+    }
+
+    public function deleteFavourite($favouriteId)
+    {
+        $data = DB::table('favourites')->where('favouriteID',$favouriteId);
         $data->delete();
         return response()->json(['message'=>'successfully deleted']);
     }

@@ -26,5 +26,8 @@ Route::post('/updateProfile/{plannerId}',[PlannerController::class,'updateProfil
 Route::get('/getRequests/{plannerId}',[PlannerController::class,'getRequests']);
 Route::get('/getFriends/{plannerId}',[PlannerController::class,'getFriends']);
 Route::post('/accept/{friendId}',[PlannerController::class,'acceptFriend']);
-Route::post('/delete/{friendId}',[PlannerController::class,'deleteFriend']);
+Route::post('/deleteFriend/{friendId}',[PlannerController::class,'deleteFriend']);
+Route::post('/addToFavourite/{currentId}/{plannerId}',[PlannerController::class,'addToFavourite']);
+Route::get('/getFavourites/{plannerId}',[PlannerController::class,'getFavourites']);
+Route::post('/deleteFavourite/{favouriteID}',[PlannerController::class,'deleteFavourite']);
 

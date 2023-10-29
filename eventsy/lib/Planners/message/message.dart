@@ -1,7 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:ui';
+
+import 'package:eventsy/Planners/message/viewProfile.dart';
 import 'package:eventsy/Planners/profile/contributors.dart';
-import 'package:eventsy/Planners/search/viewProfile.dart';
 import 'package:eventsy/model/friends.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +110,10 @@ class _MessageState extends State<Message> {
                         ]),
                       ),
                       onTap: () {
-                            
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ViewProfile(person: [requests[i]])));
                           },
                     );
                   });
@@ -255,7 +260,7 @@ class _MessageState extends State<Message> {
 }
 
   Future<bool> delete(int friendID,) async {
-  final url = 'http://127.0.0.1:8000/api/delete/$friendID';
+  final url = 'http://127.0.0.1:8000/api/deleteFriend/$friendID';
   try {
     final response = await http.post(Uri.parse(url));
 
