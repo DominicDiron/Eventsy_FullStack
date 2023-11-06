@@ -21,7 +21,7 @@ class PlannerSeeder extends Seeder
 
         $planner1 = Planner::create([
         'name'=>'Dominic Diron',
-        'location'=>'Jaffna',
+        'location'=>'Hatton',
         'dob'=>'1999-11-01',
         'password'=>Hash::make('12345'),
         'rate'=>5,
@@ -33,7 +33,7 @@ class PlannerSeeder extends Seeder
         'image5'=>'https://picsum.photos/250?image=41',
         'contact'=>'+9477896078',
         'email'=>'diron@gmail.com',
-        'description'=>'i have experience in so many thing',
+        'description'=>'2019/CSC/007',
         'services' => 'Event booking,Event planning,Birthday decorations',
         ]);
 
@@ -49,9 +49,9 @@ class PlannerSeeder extends Seeder
             'image3'=>'https://picsum.photos/250?image=26',
             'image4'=>'https://picsum.photos/250?image=27',
             'image5'=>'https://picsum.photos/250?image=28',
-            'contact'=>'+94750248108',
+            'contact'=>'+94778819120',
             'email'=>'niro@gmail.com',
-            'description'=>'i have experience in so many thing',
+            'description'=>'2019/CSC/008',
             'services' => 'Hall booking,Event planning,Hall decorations',
             ]);
 
@@ -67,9 +67,9 @@ class PlannerSeeder extends Seeder
                 'image3'=>'https://picsum.photos/250?image=4',
                 'image4'=>'https://picsum.photos/250?image=5',
                 'image5'=>'https://picsum.photos/250?image=6',
-                'contact'=>'+94773915572',
+                'contact'=>'+94766573972',
                 'email'=>'rash@gmail.com',
-                'description'=>'I am selva piratheepan',
+                'description'=>'2019/CSC/009',
                 'services' => 'Transport,Venue booking',
                 ]);
                 
@@ -85,9 +85,9 @@ class PlannerSeeder extends Seeder
                     'image3'=>'https://picsum.photos/250?image=26',
                     'image4'=>'https://picsum.photos/250?image=27',
                     'image5'=>'https://picsum.photos/250?image=28',
-                    'contact'=>'+94750248108',
+                    'contact'=>'+94752484352',
                     'email'=>'senal@gmail.com',
-                    'description'=>'i have experience in so many thing',
+                    'description'=>'2019/CSC/010',
                     'services' => 'Hall booking,Event planning,Hall decorations',
                     ]);
                     
@@ -103,9 +103,9 @@ class PlannerSeeder extends Seeder
                     'image3'=>'https://picsum.photos/250?image=26',
                     'image4'=>'https://picsum.photos/250?image=27',
                     'image5'=>'https://picsum.photos/250?image=28',
-                    'contact'=>'+94750248108',
+                    'contact'=>'+94762600410',
                     'email'=>'athi@gmail.com',
-                    'description'=>'i have experience in so many thing',
+                    'description'=>'2019/CSC/006',
                     'services' => 'Hall booking,Event planning,Hall decorations',
                     ]);
             
