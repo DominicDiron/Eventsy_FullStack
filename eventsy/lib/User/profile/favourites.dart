@@ -1,5 +1,5 @@
-import 'package:eventsy/Planners/search/viewProfile.dart';
-import 'package:eventsy/model/Planner/favourite.dart';
+import 'package:eventsy/User/search/viewProfile.dart';
+import 'package:eventsy/model/User/favourite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -13,8 +13,8 @@ class Favourites extends StatefulWidget {
 }
 
 class _FavouritesState extends State<Favourites> {
-  PlannerFavourites favourites = PlannerFavourites();
-  List plannerFavourites = [];
+  UserFavourites favourites = UserFavourites();
+  List userFavourites = [];
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +62,13 @@ class _FavouritesState extends State<Favourites> {
   Widget contributors() {
     return Expanded(
       child: FutureBuilder<List>(
-          future: favourites.getFavourites(),
+          future: favourites.getUserFavourites(),
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
-              plannerFavourites = snapshot.data!;
+              userFavourites = snapshot.data!;
               return ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  itemCount: plannerFavourites.length,
+                  itemCount: userFavourites.length,
                   itemBuilder: (context, i) {
                     return GestureDetector(
                       child: Card(
@@ -77,7 +77,7 @@ class _FavouritesState extends State<Favourites> {
                           SizedBox(
                               height: MediaQuery.of(context).size.height * 0.16,
                               width: MediaQuery.of(context).size.width * 0.25,
-                              child: Image.network(plannerFavourites[i]['profileIMG'],
+                              child: Image.network(userFavourites[i]['profileIMG'],
                                   fit: BoxFit.fill)),
                           const SizedBox(width: 15.0),
                           Flexible(
@@ -89,12 +89,12 @@ class _FavouritesState extends State<Favourites> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  printName(plannerFavourites[i]['name']),
+                                  printName(userFavourites[i]['name']),
                                   IconButton(
                                     icon: const Icon(Icons.favorite),
                                     color: Colors.red,
                                     onPressed: (){
-                                      delete(plannerFavourites[i]['favouriteID']);
+                                      delete(userFavourites[i]['favouriteID']);
                                     })
                                 ],
                               ),
@@ -103,10 +103,9 @@ class _FavouritesState extends State<Favourites> {
                                       color: Colors.white,
                                       fontSize: 15.0,
                                       fontStyle: FontStyle.italic)),
-                              printEmail(plannerFavourites[i]['email']),
-                              printPlace(plannerFavourites[i]['location']),
-                              contact(plannerFavourites[i]['contact'],
-                                  plannerFavourites[i]['email'])
+                              printEmail(userFavourites[i]['email']),
+                              printPlace(userFavourites[i]['location']),
+                              contact(userFavourites[i]['contact'],userFavourites[i]['email'])
                             ],
                           ))
                         ]),
@@ -116,7 +115,7 @@ class _FavouritesState extends State<Favourites> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                   ViewProfile(list: plannerFavourites, person: i)));
+                                    ViewProfile(list: userFavourites, person: i)));
                       },
                     );
                   });
@@ -185,12 +184,11 @@ class _FavouritesState extends State<Favourites> {
   }
 
   Future<bool> delete(int favouriteID) async {
-    print(favouriteID);
-    final url = 'http://127.0.0.1:8000/api/deleteFavourite/$favouriteID';
-    //final url = 'https://eventsy-gray.vercel.app/api/deleteFavourite/$favouriteID';
+    final url = 'http://127.0.0.1:8000/api/deleteUserFavourite/$favouriteID';
+    //final url = 'https://eventsy-gray.vercel.app/api/deleteUserFavourite/$favouriteID';
 
     try {
-      final response = await http.post(Uri.parse(url));
+      final response = await http.delete(Uri.parse(url));
 
       if (response.statusCode == 200) {
         print("Favourite deleted");

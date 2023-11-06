@@ -1,5 +1,6 @@
 
-import 'package:eventsy/Planners/navigation.dart';
+//import 'package:eventsy/Planners/navigation.dart';
+import 'package:eventsy/User/navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';

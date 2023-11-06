@@ -1,5 +1,6 @@
 import 'package:eventsy/Planners/message/viewProfile.dart';
-import 'package:eventsy/model/friends.dart';
+import 'package:eventsy/Planners/search/viewProfile.dart';
+import 'package:eventsy/model/Planner/favourite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -13,13 +14,14 @@ class Contributors extends StatefulWidget {
 }
 
 class _ContributorsState extends State<Contributors> {
-  Friends friends = Friends();
+  PlannerFavourites friends = PlannerFavourites();
   List confirmed = [];
   
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey.shade900,
         appBar: AppBar(
           title: const Text(
             'Contributors',
@@ -102,7 +104,7 @@ class _ContributorsState extends State<Contributors> {
                           Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ViewProfile(person: [confirmed[i]])));
+                                    builder: (context) => ViewProfile(list: confirmed, person: i)));
                           },
                     );
                   });
@@ -212,6 +214,7 @@ class _ContributorsState extends State<Contributors> {
   Future<bool> delete(int friendID,) async {
   print(friendID);
   final url = 'http://127.0.0.1:8000/api/deleteFriend/$friendID';
+  //final url = 'https://eventsy-gray.vercel.app/api/deleteFriend/$friendID';
 
   try {
     final response = await http.post(Uri.parse(url));

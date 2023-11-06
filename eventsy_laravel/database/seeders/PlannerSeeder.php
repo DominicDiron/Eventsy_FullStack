@@ -20,9 +20,9 @@ class PlannerSeeder extends Seeder
         //
 
         $planner1 = Planner::create([
-        'name'=>'Jashmin',
+        'name'=>'Dominic Diron',
         'location'=>'Jaffna',
-        'dob'=>'1999-07-25',
+        'dob'=>'1999-11-01',
         'password'=>Hash::make('12345'),
         'rate'=>5,
         'profileIMG'=>'https://picsum.photos/250?image=29',
@@ -32,15 +32,15 @@ class PlannerSeeder extends Seeder
         'image4'=>'https://picsum.photos/250?image=40',
         'image5'=>'https://picsum.photos/250?image=41',
         'contact'=>'+9477896078',
-        'email'=>'jashmi@gmail.com',
+        'email'=>'diron@gmail.com',
         'description'=>'i have experience in so many thing',
         'services' => 'Event booking,Event planning,Birthday decorations',
         ]);
 
         $planner2 = Planner::create([
-            'name'=>'Diron',
-            'location'=>'Hatton',
-            'dob'=>'1999-11-01',
+            'name'=>'Niroshan',
+            'location'=>'Colombo',
+            'dob'=>'1999-05-04',
             'password'=>Hash::make('12345'),
             'rate'=>3,
             'profileIMG'=>'https://picsum.photos/250?image=25',
@@ -50,14 +50,14 @@ class PlannerSeeder extends Seeder
             'image4'=>'https://picsum.photos/250?image=27',
             'image5'=>'https://picsum.photos/250?image=28',
             'contact'=>'+94750248108',
-            'email'=>'dirond@gmail.com',
+            'email'=>'niro@gmail.com',
             'description'=>'i have experience in so many thing',
             'services' => 'Hall booking,Event planning,Hall decorations',
             ]);
 
             $planner3 = Planner::create([
-                'name'=>'Piratheepan',
-                'location'=>'Colombo',
+                'name'=>'Rashmika',
+                'location'=>'Kandy',
                 'dob'=>'2005-02-15',
                 'password'=>Hash::make('12345'),
                 'rate'=>4,
@@ -68,11 +68,47 @@ class PlannerSeeder extends Seeder
                 'image4'=>'https://picsum.photos/250?image=5',
                 'image5'=>'https://picsum.photos/250?image=6',
                 'contact'=>'+94773915572',
-                'email'=>'piradeepan@gmail.com',
+                'email'=>'rash@gmail.com',
                 'description'=>'I am selva piratheepan',
                 'services' => 'Transport,Venue booking',
                 ]);
-
+                
+                $planner4 = Planner::create([
+                    'name'=>'Senal',
+                    'location'=>'Anuradhapura',
+                    'dob'=>'1999-05-04',
+                    'password'=>Hash::make('12345'),
+                    'rate'=>3,
+                    'profileIMG'=>'https://picsum.photos/250?image=25',
+                    'image1'=>'https://picsum.photos/250?image=23',
+                    'image2'=>'https://picsum.photos/250?image=24',
+                    'image3'=>'https://picsum.photos/250?image=26',
+                    'image4'=>'https://picsum.photos/250?image=27',
+                    'image5'=>'https://picsum.photos/250?image=28',
+                    'contact'=>'+94750248108',
+                    'email'=>'senal@gmail.com',
+                    'description'=>'i have experience in so many thing',
+                    'services' => 'Hall booking,Event planning,Hall decorations',
+                    ]);
+                    
+            $planner5 = Planner::create([
+                    'name'=>'Athithan',
+                    'location'=>'Jaffna',
+                    'dob'=>'1999-11-10',
+                    'password'=>Hash::make('12345'),
+                    'rate'=>3,
+                    'profileIMG'=>'https://picsum.photos/250?image=25',
+                    'image1'=>'https://picsum.photos/250?image=23',
+                    'image2'=>'https://picsum.photos/250?image=24',
+                    'image3'=>'https://picsum.photos/250?image=26',
+                    'image4'=>'https://picsum.photos/250?image=27',
+                    'image5'=>'https://picsum.photos/250?image=28',
+                    'contact'=>'+94750248108',
+                    'email'=>'athi@gmail.com',
+                    'description'=>'i have experience in so many thing',
+                    'services' => 'Hall booking,Event planning,Hall decorations',
+                    ]);
+            
         //$planner1->friends()->attach($planner2);
         //$planner2->friends()->attach($planner1);
 

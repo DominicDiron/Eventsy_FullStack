@@ -4,18 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 
-class Service extends Model
+class Booking extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $primaryKey = 'serviceID';
+    protected $primaryKey = 'favouriteID';
 
     protected $fillable = [
-        'serviceID',
-        'serviceName',
+        'bookingID',
+        'plannerID',
+        'bookedPlannerID',
+        'status',
     ];
 
     protected $hidden = [

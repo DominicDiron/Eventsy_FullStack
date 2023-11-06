@@ -9,6 +9,7 @@ class QRCodeGenerator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey.shade900,
       appBar: AppBar(
         leading: const BackButton(color: Color.fromARGB(255, 18, 140, 126),),
         backgroundColor: Colors.transparent,
@@ -19,7 +20,7 @@ class QRCodeGenerator extends StatelessWidget {
             data: data,
             version: QrVersions.auto,
             size: 200.0,
-            backgroundColor: const Color.fromARGB(255, 18, 140, 126),
+            backgroundColor: Colors.white,
           ),
       ),
     );
